@@ -135,11 +135,6 @@ class RootCommand(Feature):
             members_intent = f"members intent is {'enabled' if self.bot.intents.members else 'disabled'}"
 
             summary.append(f"{message_cache}, {presence_intent} and {members_intent}.")
-        else:
-            guild_subscriptions = f"guild subscriptions are {'enabled' if self.bot._connection.guild_subscriptions else 'disabled'}"
-
-            summary.append(f"{message_cache} and {guild_subscriptions}.")
-
         # pylint: enable=protected-access
 
         # Show websocket latency in milliseconds
