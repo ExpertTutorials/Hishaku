@@ -13,10 +13,10 @@ The jishaku core voice-related commands.
 
 import typing
 
-import discord
-import discord.opus
-import discord.voice_client
-from discord.ext import commands
+import hashcord
+import hashcord.opus
+import hashcord.voice_client
+from hashcord.ext import commands
 
 from jishaku.features.baseclass import Feature
 
@@ -32,12 +32,12 @@ class VoiceFeature(Feature):
         Check for whether VC is available in this bot.
         """
 
-        if not discord.voice_client.has_nacl:
+        if not hashcord.voice_client.has_nacl:
             return await ctx.send("Voice cannot be used because PyNaCl is not loaded.")
 
-        if not discord.opus.is_loaded():
-            if hasattr(discord.opus, '_load_default'):
-                if not discord.opus._load_default():  # pylint: disable=protected-access,no-member
+        if not hashcord.opus.is_loaded():
+            if hasattr(hashcord.opus, '_load_default'):
+                if not hashcord.opus._load_default():  # pylint: disable=protected-access,no-member
                     return await ctx.send(
                         "Voice cannot be used because libopus is not loaded and attempting to load the default failed."
                     )
@@ -93,7 +93,7 @@ class VoiceFeature(Feature):
 
     @Feature.Command(parent="jsk_voice", name="join", aliases=["connect"])
     async def jsk_vc_join(self, ctx: commands.Context, *,
-                          destination: typing.Union[discord.VoiceChannel, discord.Member] = None):
+                          destination: typing.Union[hashcord.VoiceChannel, hashcord.Member] = None):
         """
         Joins a voice channel, or moves to it if already connected.
 
@@ -107,7 +107,7 @@ class VoiceFeature(Feature):
 
         destination = destination or ctx.author
 
-        if isinstance(destination, discord.Member):
+        if isinstance(destination, hashcord.Member):
             if destination.voice and destination.voice.channel:
                 destination = destination.voice.channel
             else:
@@ -197,7 +197,7 @@ class VoiceFeature(Feature):
 
         source = ctx.guild.voice_client.source
 
-        if not isinstance(source, discord.PCMVolumeTransformer):
+        if not isinstance(source, hashcord.PCMVolumeTransformer):
             return await ctx.send("This source doesn't support adjusting volume or "
                                   "the interface to do so is not exposed.")
 
@@ -224,5 +224,5 @@ class VoiceFeature(Feature):
         # remove embed maskers if present
         uri = uri.lstrip("<").rstrip(">")
 
-        voice.play(discord.PCMVolumeTransformer(discord.FFmpegPCMAudio(uri)))
+        voice.play(hashcord.PCMVolumeTransformer(hashcord.FFmpegPCMAudio(uri)))
         await ctx.send(f"Playing in {voice.channel.name}.")

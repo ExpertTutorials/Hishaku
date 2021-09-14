@@ -11,15 +11,15 @@ Paginator-related tools and interfaces for Jishaku.
 
 """
 
-import discord
-from discord.ext import commands
+import hashcord
+from hashcord.ext import commands
 
 from jishaku.flags import Flags
 from jishaku.hljs import get_language, guess_file_traits
 from jishaku.shim.paginator_base import EmojiSettings
 
 # Version detection
-if discord.version_info >= (2, 0, 0):
+if hashcord.version_info >= (2, 0, 0):
     from jishaku.shim.paginator_200 import PaginatorEmbedInterface, PaginatorInterface
 else:
     from jishaku.shim.paginator_170 import PaginatorEmbedInterface, PaginatorInterface
@@ -149,11 +149,11 @@ class WrappedFilePaginator(FilePaginator, WrappedPaginator):
 
 def use_file_check(ctx: commands.Context, size: int) -> bool:
     """
-    A check to determine if uploading a file and relying on Discord's file preview is acceptable over a PaginatorInterface.
+    A check to determine if uploading a file and relying on hashcord's file preview is acceptable over a PaginatorInterface.
     """
 
     return all([
-        size < 50_000,  # Check the text is below the Discord cutoff point;
+        size < 50_000,  # Check the text is below the hashcord cutoff point;
         not Flags.FORCE_PAGINATOR,  # Check the user hasn't explicitly disabled this;
         (not ctx.author.is_on_mobile() if ctx.guild and ctx.bot.intents.presences else True)  # Ensure the user isn't on mobile
     ])

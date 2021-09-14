@@ -99,7 +99,7 @@ with open(ROOT / 'README.md', 'r', encoding='utf-8') as f:
 
 
 setup(
-    name='jishaku',
+    name='Hishaku',
     author='Devon (Gorialis) R',
     url='https://github.com/Gorialis/jishaku',
 
